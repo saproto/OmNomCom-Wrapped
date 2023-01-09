@@ -1,6 +1,6 @@
 import {generateCodeVerifier, OAuth2Client, OAuth2Fetch} from "@badgateway/oauth2-client";
 
-const redirectUri = 'https://wrapped.sabroto.nl';
+const redirectUri = 'https://wrapped.omnomcom.nl';
 // const redirectUri = 'http://localhost:5173';
 
 const getCodeVerifier = async() => {
