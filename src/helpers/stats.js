@@ -87,12 +87,13 @@ export const prepareStats = async orders => {
 
     //TotalSpent
     stats.totalSpent = {};
-    stats.totalSpent.amount = orders.map(x => x.total_price).reduce((a, b) => a + b)
+    stats.totalSpent.amount = orders.map(x => x.total_price).reduce((a, b) => a + b);
     stats.totalSpent.total = extraData.total;
 
     //WillToLive
     stats.willToLives = {};
-    stats.willToLives.amount = orders.filter(x => x.product.id === 987).map(el => el.units).reduce((a, b) => a + b)
+    const willToLives = orders.filter(x => x.product.id === 987).map(el => el.units);
+    stats.willToLives.amount = willToLives.length > 0 ? willToLives.reduce((a, b) => a + b) : 0;
 
     let otherWills = orderTotals['987'];
     let percentileCountWills = 0;
