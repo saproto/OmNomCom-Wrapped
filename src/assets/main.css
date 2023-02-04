@@ -5,7 +5,8 @@
   aspect-ratio: 0.56;
   border-radius: .5em;
   padding: .5em 1em;
-  width: min(calc(87vw), calc(calc(80vh) * 0.56));
+  width: min(87vw, calc(80vh * 0.56));
+  height: min(87vw, 80vh);
   position: absolute;
   overflow: hidden;
 }
@@ -16,7 +17,7 @@
 }
 
 body, html {
-  font-size: min(calc(3vw), calc(calc(3vh) * 0.56)) !important;
+  font-size: min(3vw, calc(3vh * 0.56)) !important;
   background: black;
   padding: 0;
   margin: 0;

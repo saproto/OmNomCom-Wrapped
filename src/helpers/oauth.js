@@ -1,7 +1,7 @@
 import {generateCodeVerifier, OAuth2Client, OAuth2Fetch} from "@badgateway/oauth2-client";
 
-const redirectUri = 'https://wrapped.omnomcom.nl';
-// const redirectUri = 'http://localhost:5173';
+// const redirectUri = 'https://wrapped.omnomcom.nl';
+const redirectUri = 'http://localhost:5173';
 
 const getCodeVerifier = async() => {
     let codeVerifier = localStorage.getItem('codeVerifier');
@@ -13,10 +13,10 @@ const getCodeVerifier = async() => {
 }
 
 const client = new OAuth2Client({
-    server: 'https://www.proto.utwente.nl',
-    // server: 'http://localhost:8080',
-    clientId: '10',
-    // clientId: '2',
+    // server: 'https://www.proto.utwente.nl',
+    server: 'http://localhost:8080',
+    // clientId: '10',
+    clientId: '1',
     tokenEndpoint: '/oauth/token',
     authorizationEndpoint: '/oauth/authorize',
 });

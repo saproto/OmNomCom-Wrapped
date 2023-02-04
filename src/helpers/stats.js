@@ -62,15 +62,18 @@ export const prepareStats = async orders => {
     stats.mostBought.items = Object.values(totals).sort((a, b) => b[1] - a[1]);
 
     let otherOrders = orderTotals[stats.mostBought.items[0][0].id];
-    let percentileCount = 0;
-    for (const order of otherOrders) {
-        if (stats.mostBought.items[0][1] <= order) {
-            break
+    if (stats.mostBought.items[0][1] === otherOrders[otherOrders.length-1]) {
+        stats.mostBought.percentile = 0;
+    } else {
+        let percentileCount = 0;
+        for (const order of otherOrders) {
+            if (stats.mostBought.items[0][1] <= order) {
+                break
+            }
+            percentileCount++;
         }
-        percentileCount++;
+        stats.mostBought.percentile = Math.round((otherOrders.length - percentileCount) / otherOrders.length * 100);
     }
-    stats.mostBought.percentile = Math.round((otherOrders.length - percentileCount) / otherOrders.length * 100);
-
 
     //NoStreepDecember
     stats.december = {};

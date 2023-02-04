@@ -23,6 +23,8 @@ const stats = props.data.stats.willToLives;
 
 <style scoped>
 .slide {
+  background: rgb(35, 112, 9);
+  background: linear-gradient(180deg, rgb(35, 112, 9) 0%, rgb(133, 6, 21) 98%);
   text-align: center;
 }
 </style>

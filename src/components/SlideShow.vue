@@ -76,7 +76,17 @@ const prevSlide = () => {
 }
 
 currentSlide.value = 0;
-slides[currentSlide.value][0]
+// slides[currentSlide.value][0];
+window.addEventListener('keyup', e => {
+  switch (e.code) {
+    case 'ArrowLeft':
+      prevSlide();
+      break;
+    case 'ArrowRight':
+      nextSlide();
+      break;
+  }
+});
 
 </script>
 
