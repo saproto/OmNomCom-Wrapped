@@ -53,14 +53,15 @@ export const prepareStats = async orders => {
     stats.drinks.amount = Object.keys(drinks).length;
 
     //MostBought
+    let filteredOrders = orders.filter(x => ![831].includes(x.product_id))
     stats.mostBought = {};
     let totals = {};
-    for (let order of orders) {
+    for (let order of filteredOrders) {
         if (order.product.name in totals) totals[order.product.name][1] += order.units;
         else totals[order.product.name] = [order.product, order.units];
     }
     stats.mostBought.items = Object.values(totals).sort((a, b) => b[1] - a[1]);
-
+    console.log(stats.mostBought.items[0][0])
     let otherOrders = orderTotals[stats.mostBought.items[0][0].id];
     if (stats.mostBought.items[0][1] === otherOrders[otherOrders.length-1]) {
         stats.mostBought.percentile = 0;
