@@ -15,7 +15,7 @@ const loadData = async () => {
   currentStep.value++;
   data.value.profilePicture = await protoApi('user/profile_picture');
   currentStep.value++;
-  data.value.orders = await protoApi('user/orders?from=2022-01-01&to=2023-01-01');
+  data.value.orders = await protoApi('user/orders?from=2023-01-01&to=2024-01-01');
   currentStep.value++;
   data.value.stats = await prepareStats(data.value.orders);
   currentStep.value++;
@@ -26,7 +26,7 @@ callback().then(() => {
   isLoggedIn().then(result => {
     if (result) {
       loggedIn.value = true;
-      loadData();
+      loadData()
     } else {
       loggedIn.value = false;
     }

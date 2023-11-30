@@ -30,7 +30,7 @@ let slides = [
   [Drinks, 10],
   stats.willToLives <= 0 || [WillToLive, 10],
   [DaysAtProto, 10],
-  [NoStreepDecember, 10],
+  // [NoStreepDecember, 10],
   stats.activities <= 0 || [Activities, 10],
 ];
 

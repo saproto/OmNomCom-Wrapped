@@ -16,7 +16,7 @@ const client = new OAuth2Client({
     // server: 'https://www.proto.utwente.nl',
     server: 'http://localhost:8080',
     // clientId: '10',
-    clientId: '1',
+    clientId: '12',
     tokenEndpoint: '/oauth/token',
     authorizationEndpoint: '/oauth/authorize',
 });

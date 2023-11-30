@@ -4,13 +4,12 @@ import cookieMonster from '@/assets/cookiemonster.png';
 
 export const prepareStats = async orders => {
     const stats = {};
-
     //Activities
     stats.activities = {};
     let activities = orders.filter(x => x.authenticated_by.startsWith('activity_closed_by'))
     stats.activities.amount = activities.length;
     stats.activities.spent = activities.length <= 0 ? 0 : activities.map(x => x.total_price).reduce((a, b) => a + b);
-
+    stats.activities.all = activities;
     //Calories
     stats.calories = {};
     stats.calories.amount = orders.map(x => x.units * x.product.calories).reduce((a, b) => a + b);
@@ -52,15 +51,19 @@ export const prepareStats = async orders => {
 
     stats.drinks.amount = Object.keys(drinks).length;
 
+    const omnomcomdays = new Set(orders.map(x=>x.created_at.slice(5,10)));
+    stats.omnomcomdays = omnomcomdays;
+
     //MostBought
+    let filteredOrders = orders.filter(x => ![831].includes(x.product_id))
     stats.mostBought = {};
     let totals = {};
-    for (let order of orders) {
+    for (let order of filteredOrders) {
         if (order.product.name in totals) totals[order.product.name][1] += order.units;
         else totals[order.product.name] = [order.product, order.units];
     }
     stats.mostBought.items = Object.values(totals).sort((a, b) => b[1] - a[1]);
-
+    console.log(stats.mostBought.items[0][0])
     let otherOrders = orderTotals[stats.mostBought.items[0][0].id];
     if (stats.mostBought.items[0][1] === otherOrders[otherOrders.length-1]) {
         stats.mostBought.percentile = 0;
@@ -74,6 +77,9 @@ export const prepareStats = async orders => {
         }
         stats.mostBought.percentile = Math.round((otherOrders.length - percentileCount) / otherOrders.length * 100);
     }
+
+
+
 
     //NoStreepDecember
     stats.december = {};
@@ -107,7 +113,6 @@ export const prepareStats = async orders => {
         percentileCountWills++;
     }
     stats.willToLives.percentile = Math.round((otherWills.length - percentileCountWills) / otherWills.length * 100);
-
     await preloadImages(stats);
 
     return stats;
@@ -119,7 +124,9 @@ const preloadImages = async stats => {
     for (let product of stats.mostBought.items.slice(0, 5)) {
         if (product[0].image_url) {
             const src = product[0].image_url += '?w=500';
-            await preloadImage(src);
+            await preloadImage(src).catch((error)=>{
+                console.log(error)
+            });
         }
     }
 }

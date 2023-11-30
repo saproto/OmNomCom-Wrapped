@@ -5,10 +5,9 @@
   aspect-ratio: 0.56;
   border-radius: .5em;
   padding: .5em 1em;
-  width: min(87vw, calc(80vh * 0.56));
-  height: min(87vw, 80vh);
   position: absolute;
   overflow: hidden;
+  width:100%;
 }
 
 .omnomcom {

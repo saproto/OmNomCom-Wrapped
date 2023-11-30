@@ -1,16 +1,18 @@
 <template>
   <div class="slide">
     <h1>Your most loved product this year was:</h1>
-    <div class="product-card" style="height: 9rem;">
+    <div style="height: 8rem; display: flex; justify-content: center">
+    <div class="product-card pulse">
       <img :src="stats.items[0][0]['image_url']"/>
       <div>
         <h2>{{ stats.items[0][0]['name'] }}</h2>
       </div>
     </div>
+    </div>
     <h2>You bought a total of <b>{{ stats.items[0][1] }}</b> of them!</h2>
     <h4 v-if="stats.percentile === 0">You're the top buyer of this product!</h4>
     <h4 v-else>That puts you in the top {{ stats.percentile }}% buyers of this product.</h4>
-    <h2>Your other favourite products were:</h2>
+    <h4>Your other favourite products were:</h4>
     <br>
     <div class="product-list">
       <div class="product-line" v-for="(item, index) in stats.items.slice(1, 5)">
@@ -73,7 +75,31 @@ const stats = props.data.stats.mostBought;
 }
 
 .product-list .product-card {
-  height: 5em;
+  height: 4em;
   width: 23em;
+}
+
+.pulse{
+  width:90%;
+  height:100%;
+  scale:1;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.98);
+    box-shadow: 0 0 0 0 #C0FF3380;
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px #C0FF3300;
+  }
+
+  100% {
+    transform: scale(0.98);
+    box-shadow: 0 0 0 0 #C0FF3300;
+  }
 }
 </style>
