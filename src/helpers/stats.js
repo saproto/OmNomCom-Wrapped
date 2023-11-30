@@ -9,7 +9,7 @@ export const prepareStats = async orders => {
     let activities = orders.filter(x => x.authenticated_by.startsWith('activity_closed_by'))
     stats.activities.amount = activities.length;
     stats.activities.spent = activities.length <= 0 ? 0 : activities.map(x => x.total_price).reduce((a, b) => a + b);
-    stats.activities.all=activities;
+    stats.activities.all = activities;
     //Calories
     stats.calories = {};
     stats.calories.amount = orders.map(x => x.units * x.product.calories).reduce((a, b) => a + b);
