@@ -55,7 +55,30 @@ export const prepareStats = async orders => {
     stats.omnomcomdays = omnomcomdays;
 
     //MostBought
-    let filteredOrders = orders.filter(x => ![831].includes(x.product_id))
+    let filteredOrders = orders.filter(x => ![
+        825,
+        826,
+        827,
+        831,
+        841,
+        855,
+        881,
+        883,
+        975,
+        979,
+        980,
+        986,
+        998,
+        1181,
+        1184,
+        1185,
+        1197,
+        1198,
+        1199,
+        1200,
+        1201,
+        1358
+    ].includes(x.product_id))
     stats.mostBought = {};
     let totals = {};
     for (let order of filteredOrders) {
