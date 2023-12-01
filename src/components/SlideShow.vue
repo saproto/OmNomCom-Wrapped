@@ -92,7 +92,7 @@ window.addEventListener('keyup', e => {
 
 <template>
   <div id="slideshow">
-    <div><h1>{{ data.userInfo.calling_name }}'s <span class="omnomcom">OmNomCom</span> Wrapped</h1></div>
+    <div style="margin-top:30px"><h1><span class="">Cookie Monsters</span> <span class="omnomcom">OmNomCom</span> Wrapped</h1></div>
 
     <div id="progress">
       <div v-for="(slide, i) in slides" class="bar">
@@ -109,7 +109,8 @@ window.addEventListener('keyup', e => {
       <div id="prev" @click="prevSlide()" @touchstart="touched = true" @touchend="touched = false"></div>
       <div id="next" @click="nextSlide()" @touchstart="touched = true" @touchend="touched = false"></div>
     </div>
-    <button id="share" @click="shareSlide()"><FontAwesomeIcon icon="fa-solid fa-arrow-up-from-bracket"></FontAwesomeIcon> Share this slide</button>
+    <div class="blue" style="font-size: 3em"><i>wrapped.<span class="omnomcom">OmNomCom</span>.nl</i></div>
+<!--    <button id="share" @click="shareSlide()"><FontAwesomeIcon icon="fa-solid fa-arrow-up-from-bracket"></FontAwesomeIcon> Share this slide</button>-->
   </div>
 </template>
 

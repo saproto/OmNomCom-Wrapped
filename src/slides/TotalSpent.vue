@@ -2,12 +2,12 @@
   <div class="slide">
     <div class="card">
     <h2>You spent a total of</h2>
-    <h1 class="amount">€{{ stats.amount.toFixed(2) }}</h1>
+    <h1 class="amount">€10.12</h1>
     </div>
     <h2>That could have gotten you </h2>
-    <h1 class="torondos"><b>{{ Math.floor(stats.amount/0.30) }}</b> Torondos!</h1>
+    <h1 class="torondos"><b>{{ Math.floor(10.12/0.30) }}</b> Torondos!</h1>
     <h3>Together with your other Proto members you spent a total of </h3>
-    <h1 class="total">€{{ stats.total.toFixed(2) }}</h1>
+    <h1 class="total">A lot of money!</h1>
     <img :src="cookieMonster"/>
   </div>
 </template>
