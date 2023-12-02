@@ -20,7 +20,7 @@ const stats = props.data.stats;
 
 const currentSlide = ref(0);
 const touched = ref(false);
-let held = false
+const held = ref(false);
 let touchTimeout
 const transition = ref('slide-left');
 const slide = ref(null);
@@ -66,7 +66,7 @@ const shareSlide = async () => {
   }
 }
 const nextSlide = () => {
-  if(held) {
+  if(held.value) {
     return
   }
   transition.value = 'slide-left';
@@ -75,7 +75,7 @@ const nextSlide = () => {
 }
 
 const prevSlide = () => {
-  if(held) {
+  if(held.value) {
     return
   }
   transition.value = 'slide-right';
@@ -99,13 +99,15 @@ window.addEventListener('keyup', e => {
 const touchEvent = (state) => {
   touched.value = state;
   if(state) {
+    clearTimeout(touchTimeout)
     touchTimeout = setTimeout(() => {
-      held = true
-      console.log('set-held')
-    }, 500);
+      held.value = true
+    }, 100);
   } else {
     clearTimeout(touchTimeout)
-    held = false
+    touchTimeout = setTimeout(() => {
+      held.value = false;
+    }, 0)
   }
 }
 

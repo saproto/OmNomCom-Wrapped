@@ -7,7 +7,7 @@ import {toBlob, toPng} from "html-to-image";
 
 const data = ref({});
 const loaded = ref(false);
-const steps = 4;
+const steps = 5;
 const currentStep = ref(0);
 const loggedIn = ref(undefined);
 const loadData = async () => {
@@ -15,9 +15,11 @@ const loadData = async () => {
   currentStep.value++;
   data.value.profilePicture = await protoApi('user/profile_picture');
   currentStep.value++;
+  data.value.wrapped = await protoApi('wrapped');
+  currentStep.value++;
   data.value.orders = await protoApi('user/orders?from=2023-01-01&to=2024-01-01');
   currentStep.value++;
-  data.value.stats = await prepareStats(data.value.orders);
+  data.value.stats = await prepareStats(data.value.wrapped, data.value.orders);
   currentStep.value++;
   await new Promise(resolve => setTimeout(resolve, 1000));
   loaded.value = true;
