@@ -20,6 +20,8 @@ const stats = props.data.stats;
 
 const currentSlide = ref(0);
 const touched = ref(false);
+let held = false
+let touchTimeout
 const transition = ref('slide-left');
 const slide = ref(null);
 
@@ -64,12 +66,18 @@ const shareSlide = async () => {
   }
 }
 const nextSlide = () => {
+  if(held) {
+    return
+  }
   transition.value = 'slide-left';
   if (currentSlide.value === slides.length - 1) return;
   currentSlide.value += 1;
 }
 
 const prevSlide = () => {
+  if(held) {
+    return
+  }
   transition.value = 'slide-right';
   if (currentSlide.value === 0) return;
   currentSlide.value -= 1;
@@ -88,6 +96,27 @@ window.addEventListener('keyup', e => {
   }
 });
 
+const touchEvent = (state) => {
+  touched.value = state;
+  if(state) {
+    touchTimeout = setTimeout(() => {
+      held = true
+      console.log('set-held')
+    }, 500);
+  } else {
+    clearTimeout(touchTimeout)
+    held = false
+  }
+}
+
+const startTouch = () => {
+  touchEvent(true)
+}
+
+const stopTouch = () => {
+  touchEvent(false)
+}
+
 </script>
 
 <template>
@@ -102,12 +131,12 @@ window.addEventListener('keyup', e => {
       </div>
     </div>
 
-    <div style="width: min(calc(87vw), calc(calc(80vh) * 0.56)); aspect-ratio: 0.56" ref="slide">
+    <div style="width: min(calc(87vw), calc(calc(87svh) * 0.56)); aspect-ratio: 0.56" ref="slide">
       <Transition :name="transition">
         <component :is="slides[currentSlide][0]" :data="data" :time="slides[currentSlide][1]"/>
       </Transition>
-      <div id="prev" @click="prevSlide()" @touchstart="touched = true" @touchend="touched = false"></div>
-      <div id="next" @click="nextSlide()" @touchstart="touched = true" @touchend="touched = false"></div>
+      <div id="prev" @click="prevSlide()" @touchstart="startTouch" @mousedown="startTouch" @touchend="stopTouch" @mouseup="stopTouch"></div>
+      <div id="next" @click="nextSlide()" @touchstart="startTouch" @mousedown="startTouch" @touchend="stopTouch" @mouseup="stopTouch"></div>
     </div>
     <button id="share" @click="shareSlide()"><FontAwesomeIcon icon="fa-solid fa-arrow-up-from-bracket"></FontAwesomeIcon> Share this slide</button>
   </div>
@@ -118,7 +147,7 @@ window.addEventListener('keyup', e => {
 #slideshow {
   position: fixed;
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   top: 0;
   left: 0;
   color: white;
@@ -149,7 +178,7 @@ window.addEventListener('keyup', e => {
   position: fixed;
   opacity: 0.2;
   top: 0;
-  height: 100vh;
+  height: 100svh;
   width: 50vw;
 }
 
@@ -163,7 +192,7 @@ window.addEventListener('keyup', e => {
 
 #progress {
   height: .5em;
-  width: min(calc(87vw), calc(calc(87vh) * 0.56));
+  width: min(calc(87vw), calc(calc(87svh) * 0.56));
   display: flex;
   align-items: center;
 }

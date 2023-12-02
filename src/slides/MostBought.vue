@@ -5,13 +5,14 @@
     <div class="product-card pulse">
       <img :src="stats.items[0][0]['image_url']"/>
       <div>
-        <h2>{{ stats.items[0][0]['name'] }}</h2>
+        <h1>{{ stats.items[0][0]['name'] }}</h1>
       </div>
     </div>
     </div>
     <h2>You bought a total of <b>{{ stats.items[0][1] }}</b> of them!</h2>
     <h4 v-if="stats.percentile === 0">You're the top buyer of this product!</h4>
     <h4 v-else>That puts you in the top {{ stats.percentile }}% buyers of this product.</h4>
+    <br>
     <h4>Your other favourite products were:</h4>
     <br>
     <div class="product-list">
@@ -19,7 +20,10 @@
         <div>{{ index+2 }}.</div>
         <div class="product-card">
           <img v-if="item[0]['image_url']" :src="item[0]['image_url']"/>
-          <h2>{{ item[0]['name'] }}</h2>
+          <div class="textbox">
+            <div><h2>{{ item[0]['name'] }}</h2></div>
+            <div><h2>{{ item[1] }}</h2></div>
+          </div>
         </div>
       </div>
     </div>
@@ -51,6 +55,7 @@ const stats = props.data.stats.mostBought;
   justify-content: start;
   flex-direction: row;
   align-items: center;
+  text-align: start;
   gap: 1em;
   box-shadow: rgba(255,255,255,.2) 0 0 .3rem .3rem;
 }
@@ -58,6 +63,18 @@ const stats = props.data.stats.mostBought;
 .product-card img {
   border-radius: 1em 0 0 1em;
   height: 100%;
+}
+
+.product-card .textbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  //padding-right: 1em;
+  padding: .5em 1em .5em 0em;
 }
 
 .product-list {
@@ -75,7 +92,7 @@ const stats = props.data.stats.mostBought;
 }
 
 .product-list .product-card {
-  height: 4em;
+  height: 6em;
   width: 23em;
 }
 
