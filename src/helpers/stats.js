@@ -1,6 +1,11 @@
 import orderTotals from '@/data/orderTotals.json';
 import extraData from '@/data/extraData.json';
 import cookieMonster from '@/assets/cookiemonster.png';
+import beugel from '@/assets/beugel.webp';
+import lemonade from '@/assets/lemonade.png';
+import spilledBeer from '@/assets/spilledbeer.svg'
+import tosti from '@/assets/tosti.png'
+import unicorn from '@/assets/unicorn.png'
 
 export const prepareStats = async orders => {
     const stats = {};
@@ -13,9 +18,9 @@ export const prepareStats = async orders => {
     //Calories
     stats.calories = {};
     stats.calories.amount = orders.map(x => x.units * x.product.calories).reduce((a, b) => a + b);
-    stats.calories.beers = Math.round(stats.calories.amount / 132);
-    const beerOrders = orders.filter(x => x.product.is_alcoholic);
-    stats.calories.actualBeers = beerOrders.length <= 0 ? 0 : beerOrders.map(x => x.units).reduce((a, b) => a + b);
+    stats.calories.tostis = Math.round(stats.calories.amount / 251);
+    // const beerOrders = orders.filter(x => x.product.is_alcoholic);
+    // stats.calories.actualBeers = beerOrders.length <= 0 ? 0 : beerOrders.map(x => x.units).reduce((a, b) => a + b);
 
     //DaysAtProto
     stats.days = {}
@@ -105,6 +110,7 @@ export const prepareStats = async orders => {
     stats.willToLives.amount = willToLives.length > 0 ? willToLives.reduce((a, b) => a + b) : 0;
 
     let otherWills = orderTotals['987'];
+    stats.willToLives.percentage = stats.willToLives.amount / otherWills[otherWills.length-1]
     let percentileCountWills = 0;
     for (const order of otherWills) {
         if (stats.willToLives.amount <= order) {
@@ -120,6 +126,11 @@ export const prepareStats = async orders => {
 
 const preloadImages = async stats => {
     await preloadImage(cookieMonster);
+    await preloadImage(beugel);
+    await preloadImage(lemonade);
+    await preloadImage(spilledBeer);
+    await preloadImage(tosti);
+    await preloadImage(unicorn);
     //MostBought
     for (let product of stats.mostBought.items.slice(0, 5)) {
         if (product[0].image_url) {

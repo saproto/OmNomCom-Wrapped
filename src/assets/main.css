@@ -16,7 +16,7 @@
 }
 
 body, html {
-  font-size: min(3vw, calc(3vh * 0.56)) !important;
+  font-size: min(3vw, calc(3svh * 0.56)) !important;
   background: black;
   padding: 0;
   margin: 0;
