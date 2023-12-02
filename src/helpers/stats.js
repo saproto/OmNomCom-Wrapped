@@ -1,5 +1,3 @@
-import orderTotals from '@/data/orderTotals.json';
-import extraData from '@/data/extraData.json';
 import cookieMonster from '@/assets/cookiemonster.png';
 import beugel from '@/assets/beugel.webp';
 import lemonade from '@/assets/lemonade.png';
@@ -7,7 +5,7 @@ import spilledBeer from '@/assets/spilledbeer.svg'
 import tosti from '@/assets/tosti.png'
 import unicorn from '@/assets/unicorn.png'
 
-export const prepareStats = async orders => {
+export const prepareStats = async (wrapped, orders) => {
     const stats = {};
     //Activities
     stats.activities = {};
@@ -92,7 +90,7 @@ export const prepareStats = async orders => {
     }
     stats.mostBought.items = Object.values(totals).sort((a, b) => b[1] - a[1]);
     console.log(stats.mostBought.items[0][0])
-    let otherOrders = orderTotals[stats.mostBought.items[0][0].id];
+    let otherOrders = wrapped.order_totals[stats.mostBought.items[0][0].id];
     if (stats.mostBought.items[0][1] === otherOrders[otherOrders.length-1]) {
         stats.mostBought.percentile = 0;
     } else {
@@ -120,20 +118,19 @@ export const prepareStats = async orders => {
             stats.december.items += order.units;
         }
     }
-    stats.december.winners = extraData.decemberWinners;
 
     //TotalSpent
     stats.totalSpent = {};
     stats.totalSpent.amount = orders.map(x => x.total_price).reduce((a, b) => a + b);
-    stats.totalSpent.total = extraData.total;
+    stats.totalSpent.total = wrapped.total_spent;
 
     //WillToLive
     stats.willToLives = {};
     const willToLives = orders.filter(x => x.product.id === 987).map(el => el.units);
     stats.willToLives.amount = willToLives.length > 0 ? willToLives.reduce((a, b) => a + b) : 0;
 
-    let otherWills = orderTotals['987'];
-    stats.willToLives.percentage = stats.willToLives.amount / otherWills[otherWills.length-1]
+    let otherWills = wrapped.order_totals['987'];
+    stats.willToLives.percentage = Math.log(stats.willToLives.amount) / Math.log(otherWills[otherWills.length-1])
     let percentileCountWills = 0;
     for (const order of otherWills) {
         if (stats.willToLives.amount <= order) {
