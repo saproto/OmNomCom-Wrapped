@@ -42,7 +42,7 @@ function isActive(month, day){
 .day{
   gap:2px;
   aspect-ratio: 1/1;
-  border-radius: 2px;
+  border-radius: .2em;
 }
 
 .inactive{
@@ -60,10 +60,10 @@ function isActive(month, day){
   aspect-ratio: 1/1;
   background: #272D2D90;
   display: grid;
-  grid-template-columns: 12% 12%  12%  12%  12% 12%  12%;
+  grid-template-columns: repeat(7, 1fr);
   justify-content: space-evenly;
   align-items: center;
-  gap:2px;
+  gap:.2em;
   border-radius: .5em;
   padding: .5em;
   width:100%;
@@ -72,6 +72,6 @@ function isActive(month, day){
 .calendar-container{
   display: grid;
   gap:15px;
-  grid-template-columns: 30% 30% 30%;
+  grid-template-columns: repeat(3, 1fr);
 }
 </style>
