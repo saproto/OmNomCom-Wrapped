@@ -10,7 +10,7 @@
     <h2 v-else-if="stats.percentile > 10">Are you okay?</h2>
     <h2 v-else>At least next year can't get any worse.</h2>
     <div class="container">
-      <div class="grayscale" :style="`background-image: url(${unicorn})`"></div>
+      <div class="grayscale" :style="`background-image: url(${unicornBw})`"></div>
       <div class="color" :style="`background-image: url(${unicorn}); animation-iteration-count: ${stats.percentage}; animation-duration: ${4/stats.percentage}s`"></div>
     </div>
   </div>
@@ -18,14 +18,15 @@
 
 <script setup>
 import unicorn from '@/assets/unicorn.png'
+import unicornBw from '@/assets/unicorn_bw.png'
 
 const props = defineProps({
   data: {
     required: true
-  }
+  },
+  noAnimation: Boolean
 });
 const stats = props.data.stats.willToLives;
-
 
 </script>
 
@@ -50,7 +51,6 @@ const stats = props.data.stats.willToLives;
 }
 
 .grayscale {
-  filter: grayscale(100%);
   top: 9rem;
   height: 17rem;
 }
@@ -59,6 +59,7 @@ const stats = props.data.stats.willToLives;
   top: 10rem;
   height: 16rem;
   animation: fillColor 6s forwards linear;
+  animation-delay: v-bind('noAnimation ? "-6s" : "0"');
 }
 
 @keyframes fillColor {

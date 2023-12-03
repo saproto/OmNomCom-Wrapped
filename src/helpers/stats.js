@@ -4,6 +4,7 @@ import lemonade from '@/assets/lemonade.png';
 import spilledBeer from '@/assets/spilledbeer.svg'
 import tosti from '@/assets/tosti.png'
 import unicorn from '@/assets/unicorn.png'
+import unicornBw from '@/assets/unicorn_bw.png'
 
 export const prepareStats = async (wrapped, orders) => {
     const stats = {};
@@ -54,7 +55,7 @@ export const prepareStats = async (wrapped, orders) => {
 
     stats.drinks.amount = Object.keys(drinks).length;
 
-    const omnomcomdays = new Set(orders.map(x=>x.created_at.slice(5,10)));
+    const omnomcomdays = new Set(orders.map(x => x.created_at.slice(5, 10)));
     stats.omnomcomdays = omnomcomdays;
 
     //MostBought
@@ -89,9 +90,8 @@ export const prepareStats = async (wrapped, orders) => {
         else totals[order.product.name] = [order.product, order.units];
     }
     stats.mostBought.items = Object.values(totals).sort((a, b) => b[1] - a[1]);
-    console.log(stats.mostBought.items[0][0])
     let otherOrders = wrapped.order_totals[stats.mostBought.items[0][0].id];
-    if (stats.mostBought.items[0][1] === otherOrders[otherOrders.length-1]) {
+    if (stats.mostBought.items[0][1] === otherOrders[otherOrders.length - 1]) {
         stats.mostBought.percentile = 0;
     } else {
         let percentileCount = 0;
@@ -103,8 +103,6 @@ export const prepareStats = async (wrapped, orders) => {
         }
         stats.mostBought.percentile = Math.round((otherOrders.length - percentileCount) / otherOrders.length * 100);
     }
-
-
 
 
     //NoStreepDecember
@@ -130,7 +128,7 @@ export const prepareStats = async (wrapped, orders) => {
     stats.willToLives.amount = willToLives.length > 0 ? willToLives.reduce((a, b) => a + b) : 0;
 
     let otherWills = wrapped.order_totals['987'];
-    stats.willToLives.percentage = Math.log(stats.willToLives.amount) / Math.log(otherWills[otherWills.length-1])
+    stats.willToLives.percentage = Math.log(stats.willToLives.amount) / Math.log(otherWills[otherWills.length - 1])
     let percentileCountWills = 0;
     for (const order of otherWills) {
         if (stats.willToLives.amount <= order) {
@@ -151,11 +149,19 @@ const preloadImages = async stats => {
     await preloadImage(spilledBeer);
     await preloadImage(tosti);
     await preloadImage(unicorn);
+    await preloadImage(unicornBw);
     //MostBought
     for (let product of stats.mostBought.items.slice(0, 5)) {
         if (product[0].image_url) {
             const src = product[0].image_url += '?w=500';
-            await preloadImage(src).catch((error)=>{
+            const blob = await fetch(src).then(response => response.blob())
+            product[0].image_url = await new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.onload = function(){resolve(this.result)};
+                reader.readAsDataURL(blob);
+            });
+
+            await preloadImage(src).catch((error) => {
                 console.log(error)
             });
         }

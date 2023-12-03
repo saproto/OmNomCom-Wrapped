@@ -4,7 +4,7 @@
     <h2>{{ stats.amount }} Calories</h2>
     <h2>That's equal to {{ stats.tostis }} Tostis!</h2>
     <div class="tostis" :style="`grid-template-columns: repeat(${Math.round(Math.sqrt(stats.tostis/1.5))}, 1fr);`">
-      <img v-for="n in stats.tostis" :src="tosti" :style="`width: ${Math.round(Math.sqrt(stats.tostis/10))}em; animation-delay: ${(n-1)*(4/stats.tostis)}s`">
+      <img v-for="n in stats.tostis" :src="tosti" :style="`width: ${Math.round(Math.sqrt(stats.tostis/10))}em; animation-delay: ${noAnimation ? -4 : (n-1)*(4/stats.tostis)}s`">
     </div>
   </div>
 </template>
@@ -17,7 +17,8 @@ import tosti from '@/assets/tosti.png'
 const props = defineProps({
   data: {
     required: true
-  }
+  },
+  noAnimation: Boolean,
 });
 const stats = props.data.stats.calories;
 </script>

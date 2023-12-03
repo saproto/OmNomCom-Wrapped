@@ -19,7 +19,7 @@
       <div class="product-line" v-for="(item, index) in stats.items.slice(1, 5)">
         <div>{{ index+2 }}.</div>
         <div class="product-card">
-          <img v-if="item[0]['image_url']" :src="item[0]['image_url']"/>
+          <img v-if="item[0]['image_url']" :src="item[0]['image_url']" crossorigin="anonymous"/>
           <div class="textbox">
             <div><h2>{{ item[0]['name'] }}</h2></div>
             <div><h2>{{ item[1] }}</h2></div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {toBlob, toPng} from "html-to-image";
+import html2canvas from "html2canvas";
 import TotalSpent from "@/slides/TotalSpent.vue";
 import MostBought from "@/slides/MostBought.vue";
 import Calories from "@/slides/Calories.vue";
@@ -26,6 +26,7 @@ let touchTimeout
 const transition = ref('slide-left');
 const slide = ref(null);
 const slideElement = ref(null);
+const sharing = ref(false);
 
 
 let slides = [
@@ -42,34 +43,39 @@ let slides = [
 slides = slides.filter(x => x !== true);
 
 const shareSlide = async () => {
-  try {
-    const options = {
-      cacheBust: false,
-      pixelRatio: 2,
-      includeQueryParams: true
-    };
-    if (navigator.share) {
-      const blob = await toBlob(slide.value, options);
-      const imgFile = new File([blob], 'OmNomComWrapped2022.png', {type: 'image/png'});
-      navigator.share({
-        title: 'OmNomComWrapped 2022',
-        text: 'Look at my OmNomCom Wrapped of 2022',
-        files: [imgFile],
-        url: window.location.href,
+  sharing.value = true;
+  setTimeout(async () => {
+    try {
+      const canvas = await html2canvas(slide.value, {
+        backgroundColor: null,
       });
-    } else {
-      const dataUrl = await toPng(slide.value, options);
-      const link = document.createElement('a');
-      link.download = 'OmNomComWrapped2022.png';
-      link.href = dataUrl;
-      link.click();
+      canvas.toBlob(async blob => {
+        if (navigator.share) {
+          const imgFile = new File([blob], 'OmNomComWrapped2022.png', {type: 'image/png'});
+          await navigator.share({
+            // title: 'OmNomComWrapped 2022',
+            // text: 'Look at my OmNomCom Wrapped of 2022! Find yours at wrapped.omnomcom.nl',
+            files: [imgFile],
+            // url: window.location.href,
+          });
+        } else {
+          const dataUrl = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.download = 'OmNomComWrapped2022.png';
+          link.href = dataUrl;
+          link.click();
+        }
+      })
+    } catch (e) {
+      console.log(e);
     }
-  } catch (e) {
-    console.log(e);
-  }
+    setTimeout(() => {
+      sharing.value = false;
+    }, 0)
+  }, 0)
 }
 const nextSlide = () => {
-  if(held.value) {
+  if (held.value) {
     return
   }
   transition.value = 'slide-left';
@@ -78,7 +84,7 @@ const nextSlide = () => {
 }
 
 const prevSlide = () => {
-  if(held.value) {
+  if (held.value) {
     return
   }
   transition.value = 'slide-right';
@@ -102,8 +108,8 @@ window.addEventListener('keydown', e => {
 const slideClick = (e: MouseEvent) => {
   const target = e.currentTarget as HTMLElement
   const bounds = target.getBoundingClientRect()
-  const middle = bounds.left+bounds.width/2;
-  if(e.pageX < middle) {
+  const middle = bounds.left + bounds.width / 2;
+  if (e.pageX < middle) {
     prevSlide()
   } else {
     nextSlide()
@@ -112,7 +118,7 @@ const slideClick = (e: MouseEvent) => {
 
 const touchEvent = (state) => {
   touched.value = state;
-  if(state) {
+  if (state) {
     clearTimeout(touchTimeout)
     touchTimeout = setTimeout(() => {
       held.value = true
@@ -137,7 +143,7 @@ const remToPx = (rem) => {
   return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
 
-const { isSwiping, direction, lengthX, lengthY } = useSwipe(slideElement, {
+const {isSwiping, direction, lengthX, lengthY} = useSwipe(slideElement, {
   passive: true,
   onSwipeStart(e: TouchEvent) {
     touched.value = true;
@@ -147,11 +153,11 @@ const { isSwiping, direction, lengthX, lengthY } = useSwipe(slideElement, {
     const el = slideElement.value.$el;
     const parent = slide.value;
     let moveVal = -lengthX.value
-    let rotateVal = -lengthX.value/parent.getBoundingClientRect().width*40;
+    let rotateVal = -lengthX.value / parent.getBoundingClientRect().width * 40;
     if (currentSlide.value === 0) {
       moveVal = Math.min(0, moveVal);
       rotateVal = Math.min(40, rotateVal)
-    } else if (currentSlide.value === slides.length-1) {
+    } else if (currentSlide.value === slides.length - 1) {
       moveVal = Math.max(0, moveVal);
       rotateVal = Math.max(-40, rotateVal)
     }
@@ -164,12 +170,12 @@ const { isSwiping, direction, lengthX, lengthY } = useSwipe(slideElement, {
   },
   onSwipeEnd(e: TouchEvent) {
     const el = slideElement.value.$el;
-    const slideWidth = slide.value.getBoundingClientRect().width/2;
+    const slideWidth = slide.value.getBoundingClientRect().width / 2;
     el.classList.add('slide-transition');
     touched.value = false;
-    if(lengthX.value < -slideWidth && currentSlide.value !== 0) {
+    if (lengthX.value < -slideWidth && currentSlide.value !== 0) {
       prevSlide()
-    } else if (lengthX.value > slideWidth && currentSlide.value !== slides.length-1) {
+    } else if (lengthX.value > slideWidth && currentSlide.value !== slides.length - 1) {
       nextSlide()
     } else {
       el.style.transform = '';
@@ -202,10 +208,14 @@ const { isSwiping, direction, lengthX, lengthY } = useSwipe(slideElement, {
             @click="slideClick"
             @mousedown="startTouch"
             @mouseup="stopTouch"
+            :no-animation="sharing"
         />
       </Transition>
     </div>
-    <button id="share" @click="shareSlide()"><FontAwesomeIcon icon="fa-solid fa-arrow-up-from-bracket"></FontAwesomeIcon> Share this slide</button>
+    <button id="share" @click="shareSlide()">
+      <FontAwesomeIcon icon="fa-solid fa-arrow-up-from-bracket"></FontAwesomeIcon>
+      Share this slide
+    </button>
   </div>
 </template>
 
