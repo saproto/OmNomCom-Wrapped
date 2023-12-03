@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {ref} from "vue";
 import {toBlob, toPng} from "html-to-image";
 import TotalSpent from "@/slides/TotalSpent.vue";
@@ -10,6 +10,7 @@ import DaysAtProto from "@/slides/DaysAtProto.vue";
 import NoStreepDecember from "@/slides/NoStreepDecember.vue";
 import Activities from "@/slides/Activities.vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {useSwipe} from "@vueuse/core";
 
 const props = defineProps({
   data: {
@@ -24,6 +25,8 @@ const held = ref(false);
 let touchTimeout
 const transition = ref('slide-left');
 const slide = ref(null);
+const slideElement = ref(null);
+
 
 let slides = [
   [TotalSpent, 10],
@@ -85,7 +88,7 @@ const prevSlide = () => {
 
 currentSlide.value = 0;
 // slides[currentSlide.value][0];
-window.addEventListener('keyup', e => {
+window.addEventListener('keydown', e => {
   switch (e.code) {
     case 'ArrowLeft':
       prevSlide();
@@ -95,6 +98,17 @@ window.addEventListener('keyup', e => {
       break;
   }
 });
+
+const slideClick = (e: MouseEvent) => {
+  const target = e.currentTarget as HTMLElement
+  const bounds = target.getBoundingClientRect()
+  const middle = bounds.left+bounds.width/2;
+  if(e.pageX < middle) {
+    prevSlide()
+  } else {
+    nextSlide()
+  }
+}
 
 const touchEvent = (state) => {
   touched.value = state;
@@ -119,6 +133,50 @@ const stopTouch = () => {
   touchEvent(false)
 }
 
+const remToPx = (rem) => {
+  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
+const { isSwiping, direction, lengthX, lengthY } = useSwipe(slideElement, {
+  passive: true,
+  onSwipeStart(e: TouchEvent) {
+    touched.value = true;
+    slideElement.value.$el.classList.remove('slide-transition');
+  },
+  onSwipe(e: TouchEvent) {
+    const el = slideElement.value.$el;
+    const parent = slide.value;
+    let moveVal = -lengthX.value
+    let rotateVal = -lengthX.value/parent.getBoundingClientRect().width*40;
+    if (currentSlide.value === 0) {
+      moveVal = Math.min(0, moveVal);
+      rotateVal = Math.min(40, rotateVal)
+    } else if (currentSlide.value === slides.length-1) {
+      moveVal = Math.max(0, moveVal);
+      rotateVal = Math.max(-40, rotateVal)
+    }
+
+    if (moveVal === 0) {
+      el.style.transform = `rotateY(${rotateVal}deg)`
+    } else {
+      el.style.transform = `translateX(${moveVal}px)`;
+    }
+  },
+  onSwipeEnd(e: TouchEvent) {
+    const el = slideElement.value.$el;
+    const slideWidth = slide.value.getBoundingClientRect().width/2;
+    el.classList.add('slide-transition');
+    touched.value = false;
+    if(lengthX.value < -slideWidth && currentSlide.value !== 0) {
+      prevSlide()
+    } else if (lengthX.value > slideWidth && currentSlide.value !== slides.length-1) {
+      nextSlide()
+    } else {
+      el.style.transform = '';
+    }
+  },
+},)
+
 </script>
 
 <template>
@@ -133,12 +191,19 @@ const stopTouch = () => {
       </div>
     </div>
 
-    <div style="width: min(calc(87vw), calc(calc(87svh) * 0.56)); aspect-ratio: 0.56" ref="slide">
+    <div id="slide-holder" ref="slide">
       <Transition :name="transition">
-        <component :is="slides[currentSlide][0]" :data="data" :time="slides[currentSlide][1]"/>
+        <component
+            class="slide"
+            :is="slides[currentSlide][0]"
+            :data="data"
+            :time="slides[currentSlide][1]"
+            ref="slideElement"
+            @click="slideClick"
+            @mousedown="startTouch"
+            @mouseup="stopTouch"
+        />
       </Transition>
-      <div id="prev" @click="prevSlide()" @touchstart="startTouch" @mousedown="startTouch" @touchend="stopTouch" @mouseup="stopTouch"></div>
-      <div id="next" @click="nextSlide()" @touchstart="startTouch" @mousedown="startTouch" @touchend="stopTouch" @mouseup="stopTouch"></div>
     </div>
     <button id="share" @click="shareSlide()"><FontAwesomeIcon icon="fa-solid fa-arrow-up-from-bracket"></FontAwesomeIcon> Share this slide</button>
   </div>
@@ -242,6 +307,17 @@ const stopTouch = () => {
 
 }
 
+#slide-holder {
+  width: min(calc(87vw), calc(calc(87svh) * 0.56));
+  aspect-ratio: 0.56;
+  perspective: 100rem;
+  perspective-origin: 50vw 50svh;
+}
+
+.slide-transition {
+  transition: transform 0.3s ease;
+}
+
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,
@@ -251,11 +327,11 @@ const stopTouch = () => {
 
 .slide-left-enter-from,
 .slide-right-leave-to {
-  transform: translateX(calc(100vw));
+  transform: translateX(calc(100vw)) !important;
 }
 
 .slide-left-leave-to,
 .slide-right-enter-from {
-  transform: translateX(calc(-100vw));
+  transform: translateX(calc(-100vw)) !important;
 }
 </style>

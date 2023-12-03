@@ -20,4 +20,9 @@ body, html {
   background: black;
   padding: 0;
   margin: 0;
+  user-select: none;
+}
+
+img {
+  -webkit-user-drag: none;
 }
