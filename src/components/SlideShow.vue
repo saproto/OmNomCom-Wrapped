@@ -1,13 +1,11 @@
 <script setup>
 import {ref} from "vue";
-import {toBlob, toPng} from "html-to-image";
 import TotalSpent from "@/slides/TotalSpent.vue";
 import MostBought from "@/slides/MostBought.vue";
 import Calories from "@/slides/Calories.vue";
 import Drinks from "@/slides/Drinks.vue";
 import WillToLive from "@/slides/WillToLive.vue";
 import DaysAtProto from "@/slides/DaysAtProto.vue";
-import NoStreepDecember from "@/slides/NoStreepDecember.vue";
 import Activities from "@/slides/Activities.vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 

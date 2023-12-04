@@ -97,6 +97,8 @@ const activities = props.data.wrapped.events
 }
 
 .footer{
+  color:lightblue;
+  font-size: .8em;
   display: flex;
   justify-content: space-between;
 }
