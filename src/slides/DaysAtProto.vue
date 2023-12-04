@@ -1,6 +1,6 @@
 <template>
   <div class="slide">
-    <h1>This past year you used the OmNomCom <i class="header-text">{{ stats.amount }} days</i></h1>
+    <h1>This past year you used the OmNomCom <span class="header-text"><span class="dynamic">{{ stats.amount }}</span> days</span></h1>
     <div class="calendar-container">
       <div v-for="month in 12" :key="month" style="width:100%">
         <i>

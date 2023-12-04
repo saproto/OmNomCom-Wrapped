@@ -1,8 +1,9 @@
 <template>
   <div class="slide">
     <h1>You consumed a total of</h1>
-    <h2>{{ stats.amount }} Calories</h2>
-    <h2>That's equal to {{ stats.tostis }} Tostis!</h2>
+    <h1 class="dynamic">{{ stats.amount }}</h1>
+    <h2>Calories this year.</h2>
+    <h2>That's equal to <span class="dynamic">{{ stats.tostis }}</span> Tostis!</h2>
     <div class="tostis" :style="`grid-template-columns: repeat(${Math.round(Math.sqrt(stats.tostis/1.5))}, 1fr);`">
       <img v-for="n in stats.tostis" :src="tosti" :style="`width: ${Math.round(Math.sqrt(stats.tostis/10))}em; animation-delay: ${noAnimation ? -4 : (n-1)*(4/stats.tostis)}s`">
     </div>
@@ -30,6 +31,10 @@ const stats = props.data.stats.calories;
   background: rgb(119,75,198);
   background: linear-gradient(48deg, rgba(119,75,198,1) 20%, rgba(135,173,250,1) 87%);
   text-align: center;
+}
+
+.dynamic {
+  color: #ffc246;
 }
 
 .container {

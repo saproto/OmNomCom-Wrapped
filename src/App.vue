@@ -3,7 +3,6 @@ import {ref} from 'vue';
 import {login, callback, protoApi, isLoggedIn} from "@/helpers/oauth";
 import SlideShow from "@/components/SlideShow.vue";
 import {prepareStats} from "@/helpers/stats";
-import {toBlob, toPng} from "html-to-image";
 
 const data = ref({});
 const loaded = ref(false);
