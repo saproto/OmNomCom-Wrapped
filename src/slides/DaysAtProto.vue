@@ -7,7 +7,7 @@
           {{months[month-1][0]}}
         </i>
         <div class="calendar">
-        <div v-for="day in 31" :key="day" class="day" :class="[isActive(month, day)?'active':'', months[month-1][1]>day?'inactive':'']">
+        <div v-for="day in 31" :key="day" class="day" :class="[isActive(month, day)?'active':'', months[month-1][1]>=day?'inactive':'']">
         </div>
         </div>
       </div>
