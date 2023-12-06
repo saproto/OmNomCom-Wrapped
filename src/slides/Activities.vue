@@ -13,10 +13,10 @@
             {{ activity.title }}
           </div>
           <div class="footer">
-            <div>
+            <div class="date">
               {{ activity.formatted_date.simple }}
             </div>
-            <div>
+            <div class="location">
               {{ activity.location }}
             </div>
           </div>
@@ -66,6 +66,7 @@ const activities = props.data.wrapped.events
   opacity: 1;
   text-align: start;
   text-wrap: none;
+  white-space: nowrap;
   width: 100%;
   transform: translateY(7rem);
   padding: 0 1rem;
@@ -90,6 +91,7 @@ const activities = props.data.wrapped.events
 
 .title {
   text-wrap: none;
+  text-overflow: ellipsis;
   overflow: hidden;
 }
 
@@ -104,6 +106,16 @@ const activities = props.data.wrapped.events
   font-size: .8em;
   display: flex;
   justify-content: space-between;
+  gap: 2rem;
+}
+
+.footer div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date {
+  flex-shrink: 0;
 }
 
 @keyframes move {
