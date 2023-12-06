@@ -1,13 +1,11 @@
 <template>
   <div class="slide">
-    <div class="card">
-    <h2>You spent a total of</h2>
-    <h1 class="amount">€{{ stats.amount.toFixed(2) }}</h1>
-    </div>
-    <h2>That could have gotten you </h2>
-    <h1 class="torondos"><b>{{ Math.floor(stats.amount/0.30) }}</b> Torondos!</h1>
-    <h3>Together with your other Proto members you spent a total of </h3>
-    <h1 class="total">€{{ stats.total.toFixed(2) }}</h1>
+    <h1>You spent a total of</h1>
+    <h1 class="dynamic amount">€{{ stats.amount.toFixed(2) }}</h1>
+    <h1>That could have gotten you </h1>
+    <h1 class="torondos"><span class="dynamic">{{ Math.floor(stats.amount/0.30) }}</span> Torondos!</h1>
+    <h2>Together with your other Proto members you spent a total of </h2>
+    <h1 class="dynamic total">€{{ stats.total.toFixed(2) }}</h1>
     <img :src="cookieMonster"/>
   </div>
 </template>
@@ -38,7 +36,7 @@ const stats = props.data.stats.totalSpent;
 .total{
   color:#4deeea;
 }
-h1{
+h1:nth-child(2){
   padding-bottom: .5em;
 }
 img {

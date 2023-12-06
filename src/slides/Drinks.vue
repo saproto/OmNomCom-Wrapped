@@ -3,15 +3,16 @@
     <h1>This year you attended</h1>
     <h1>
       <img :src="spilledBeer" style="width: 10rem;"/>
-      {{ stats.amount }} drinks
+      <span class="dynamic">{{ stats.amount }}</span> drinks
     </h1>
-    <h2>On average you consumed {{ (stats.alcoholic+stats.nonAlcoholic)/stats.amount }} per drink!</h2>
+    <h2>On average you consumed <span class="dynamic">{{ ((stats.alcoholic+stats.nonAlcoholic)/stats.amount).toFixed(2) }}</span> glasses per drink!</h2>
     <h2>
       <img :src="beugel" style="height: 1em"/>
-      = Alcoholic
+      = <span class="dynamic">Alcoholic</span>
       <img :src="lemonade" style="width: 1em"/>
-      = Non-Alcoholic
+      = <span class="dynamic">Non-Alcoholic</span>
     </h2>
+    <br>
     <div id="beerStats">
       <div v-for="i in 100">
         <img :src="i > 58/*stats.alcoholic/stats.amount*100*/ ? lemonade : beugel" style="width: 2.5rem"/>
@@ -38,6 +39,10 @@ const stats = props.data.stats.drinks;
   background: rgb(34,78,255);
   background: linear-gradient(149deg, rgb(34,78,255) 0%, rgb(44, 92, 155) 49%, rgb(42, 40, 100) 98%);
   text-align: center;
+}
+
+.dynamic {
+  color: #ffe700;
 }
 
 #beerStats {

@@ -1,6 +1,6 @@
 <template>
   <div class="slide">
-    <h1>Your most loved product this year was:</h1>
+    <h1>Your most loved product:</h1>
     <div style="height: 8rem; display: flex; justify-content: center">
     <div class="product-card pulse">
       <img :src="stats.items[0][0]['image_url']"/>
@@ -9,17 +9,17 @@
       </div>
     </div>
     </div>
-    <h2>You bought a total of <b>{{ stats.items[0][1] }}</b> of them!</h2>
-    <h4 v-if="stats.percentile === 0">You're the top buyer of this product!</h4>
-    <h4 v-else>That puts you in the top {{ stats.percentile }}% buyers of this product.</h4>
+    <h1>You bought a total of <span class="dynamic">{{ stats.items[0][1] }}</span>!</h1>
+    <h2 v-if="stats.percentile === 0">You're the <span class="dynamic">top</span> buyer of this product!</h2>
+    <h2 v-else>That puts you in the top <span class="dynamic">{{ stats.percentile }}%</span> buyers of this product.</h2>
     <br>
-    <h4>Your other favourite products were:</h4>
+    <h2>Your other favourite products were:</h2>
     <br>
     <div class="product-list">
       <div class="product-line" v-for="(item, index) in stats.items.slice(1, 5)">
         <div>{{ index+2 }}.</div>
         <div class="product-card">
-          <img v-if="item[0]['image_url']" :src="item[0]['image_url']"/>
+          <img v-if="item[0]['image_url']" :src="item[0]['image_url']" crossorigin="anonymous"/>
           <div class="textbox">
             <div><h2>{{ item[0]['name'] }}</h2></div>
             <div><h2>{{ item[1] }}</h2></div>
@@ -46,6 +46,10 @@ const stats = props.data.stats.mostBought;
   text-align: center;
 }
 
+.dynamic {
+  color: #e08fff;
+}
+
 .product-card {
   background: rgba(200,200,200,.6);
   border-radius: 1em;
@@ -58,6 +62,10 @@ const stats = props.data.stats.mostBought;
   text-align: start;
   gap: 1em;
   box-shadow: rgba(255,255,255,.2) 0 0 .3rem .3rem;
+}
+
+.product-card * {
+  font-weight: normal;
 }
 
 .product-card img {

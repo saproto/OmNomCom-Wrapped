@@ -1,16 +1,18 @@
 <template>
   <div class="slide">
-    <h1>This year you needed</h1>
-    <h1>{{ stats.amount }} will to lives.</h1>
-    <h2>That places you in the top {{ stats.percentile }}%</h2>
+    <div class="card">
+      <h1>This year you needed</h1>
+      <h1><span class="dynamic">{{ stats.amount }}</span> will to lives.</h1>
+      <h2>That places you in the top <span class="dynamic">{{ stats.percentile }}%</span></h2>
 
-    <h2 v-if="stats.percentile > 80">Must have been a great year.</h2>
-    <h2 v-else-if="stats.percentile > 50">Must have been an average year.</h2>
-    <h2 v-else-if="stats.percentile > 30">Must have been an rough year.</h2>
-    <h2 v-else-if="stats.percentile > 10">Are you okay?</h2>
-    <h2 v-else>At least next year can't get any worse.</h2>
+      <h2 v-if="stats.percentile > 80">Must have been a great year.</h2>
+      <h2 v-else-if="stats.percentile > 50">Must have been an average year.</h2>
+      <h2 v-else-if="stats.percentile > 30">Must have been an rough year.</h2>
+      <h2 v-else-if="stats.percentile > 10">Are you okay?</h2>
+      <h2 v-else>At least next year can't get any worse.</h2>
+    </div>
     <div class="container">
-      <div class="grayscale" :style="`background-image: url(${unicorn})`"></div>
+      <div class="grayscale" :style="`background-image: url(${unicornBw})`"></div>
       <div class="color" :style="`background-image: url(${unicorn}); animation-iteration-count: ${stats.percentage}; animation-duration: ${4/stats.percentage}s`"></div>
     </div>
   </div>
@@ -18,14 +20,15 @@
 
 <script setup>
 import unicorn from '@/assets/unicorn.png'
+import unicornBw from '@/assets/unicorn_bw.png'
 
 const props = defineProps({
   data: {
     required: true
-  }
+  },
+  noAnimation: Boolean
 });
 const stats = props.data.stats.willToLives;
-
 
 </script>
 
@@ -33,7 +36,19 @@ const stats = props.data.stats.willToLives;
 .slide {background: rgb(243,127,247);
   background: linear-gradient(236deg, rgba(243,127,247,1) 0%, rgba(251,196,131,1) 51%, rgba(0,212,255,1) 100%);
   text-align: center;
-  text-shadow: 0 0 .2rem #000000;
+  //text-shadow: 0 0 .2rem #000000;
+}
+
+.dynamic {
+  color: pink;
+}
+
+.card {
+  background: rgba(150, 150, 150, 0.6);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 2rem;
+  box-shadow: rgba(255,255,255,.2) 0 0 .3rem .3rem;
 }
 
 .container {
@@ -50,7 +65,6 @@ const stats = props.data.stats.willToLives;
 }
 
 .grayscale {
-  filter: grayscale(100%);
   top: 9rem;
   height: 17rem;
 }
@@ -59,6 +73,7 @@ const stats = props.data.stats.willToLives;
   top: 10rem;
   height: 16rem;
   animation: fillColor 6s forwards linear;
+  animation-delay: v-bind('noAnimation ? "-6s" : "0"');
 }
 
 @keyframes fillColor {

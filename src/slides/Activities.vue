@@ -1,10 +1,8 @@
 <template>
   <div class="slide">
-    <div class="content">
-      <h2>You paid for a total of</h2>
-      <h1>{{ stats.amount }} Activities</h1>
-      <h2>Which cost you a total of <p class="amount-spent"> €{{ stats.spent }}!</p></h2>
-    </div>
+    <h2>You paid for a total of</h2>
+    <h1><span class="dynamic">{{ stats.amount }}</span> Activities</h1>
+    <h2>Which cost you a total of <p class="amount-spent dynamic"> €{{ stats.spent }}!</p></h2>
     <div class="activity-container">
       <div v-for="(activity, idx) in stats.all" class="move-up" :style="`animation-delay: ${(idx-5)*(delay)}s`">
         <div class="activity"
