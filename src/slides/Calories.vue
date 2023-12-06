@@ -27,8 +27,6 @@ const columns = Math.round(Math.sqrt(stats.tostis/2));
 
 <style scoped>
 .slide {
-  //background: rgb(34, 78, 255);
-  //background: linear-gradient(149deg, rgb(34, 78, 255) 0%, rgb(44, 92, 155) 49%, rgb(42, 40, 100) 98%);
   background: rgb(119,75,198);
   background: linear-gradient(48deg, rgba(119,75,198,1) 20%, rgba(135,173,250,1) 87%);
   text-align: center;

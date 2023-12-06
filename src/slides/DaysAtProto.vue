@@ -68,7 +68,6 @@ function isActive(month, day) {
 
   border-radius: .5rem;
   padding: .5rem;
-  //width: 100%;
   overflow: hidden;
 }
 

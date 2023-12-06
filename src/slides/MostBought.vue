@@ -81,7 +81,6 @@ const stats = props.data.stats.mostBought;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  //padding-right: 1em;
   padding: .5em 1em .5em 0em;
 }
 

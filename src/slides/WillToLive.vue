@@ -36,7 +36,6 @@ const stats = props.data.stats.willToLives;
 .slide {background: rgb(243,127,247);
   background: linear-gradient(236deg, rgba(243,127,247,1) 0%, rgba(251,196,131,1) 51%, rgba(0,212,255,1) 100%);
   text-align: center;
-  //text-shadow: 0 0 .2rem #000000;
 }
 
 .dynamic {
