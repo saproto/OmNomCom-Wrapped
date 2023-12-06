@@ -4,8 +4,8 @@
     <h1 class="dynamic">{{ stats.amount }}</h1>
     <h2>Calories this year.</h2>
     <h2>That's equal to <span class="dynamic">{{ stats.tostis }}</span> Tostis!</h2>
-    <div class="tostis" :style="`grid-template-columns: repeat(${Math.round(Math.sqrt(stats.tostis/1.5))}, 1fr);`">
-      <img v-for="n in stats.tostis" :src="tosti" :style="`width: ${Math.round(Math.sqrt(stats.tostis/10))}em; animation-delay: ${noAnimation ? -4 : (n-1)*(4/stats.tostis)}s`">
+    <div class="tostis">
+      <img v-for="n in stats.tostis" :src="tosti" :style="`animation-delay: ${noAnimation ? -4 : (n-1)*(4/stats.tostis)}s`">
     </div>
   </div>
 </template>
@@ -22,6 +22,7 @@ const props = defineProps({
   noAnimation: Boolean,
 });
 const stats = props.data.stats.calories;
+const columns = Math.round(Math.sqrt(stats.tostis/2));
 </script>
 
 <style scoped>
@@ -49,14 +50,15 @@ const stats = props.data.stats.calories;
   flex-direction: row;
   flex-wrap: wrap-reverse;
   justify-content: center;
-  gap: .5em;
+  padding: 0 1rem;
+  gap: .5rem;
   width: auto;
-  bottom: 1em;
+  bottom: 1rem;
   left: 0;
 }
 
 .tostis img {
-  width: 100%;
+  width: v-bind('`calc(calc(100% - calc(.5rem * ${columns - 1})) / ${columns})`');
   animation: drop 1s forwards cubic-bezier(0.175, 0.885, 0.32, 1.025);
   transform: translateY(-100svh);
 }

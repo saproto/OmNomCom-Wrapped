@@ -4,17 +4,17 @@
     <h1><span class="dynamic">{{ stats.amount }}</span> Activities</h1>
     <h2>Which cost you a total of <p class="amount-spent dynamic"> €{{ stats.spent }}!</p></h2>
     <div class="activity-container">
-      <div v-for="(activity, idx) in activities" class="move-up" :style="`animation-delay: ${(idx-5)*(delay)}s`">
+      <div v-for="(activity, idx) in stats.all" class="move-up" :style="`animation-delay: ${(idx-5)*(delay)}s`">
         <div class="activity"
              :style="`background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(${activity.image_url})`">
           <div class="title">
             {{ activity.title }}
           </div>
           <div class="footer">
-            <div>
+            <div class="date">
               {{ activity.formatted_date.simple }}
             </div>
-            <div>
+            <div class="location">
               {{ activity.location }}
             </div>
           </div>
@@ -33,7 +33,6 @@ const props = defineProps({
   }
 });
 const stats = props.data.stats.activities;
-const activities = props.data.wrapped.events
 </script>
 
 <style scoped>
@@ -59,11 +58,12 @@ const activities = props.data.wrapped.events
 .move-up {
   position: absolute;
   animation: move infinite linear;
-  animation-duration: v-bind('`${delay*activities.length}s`');
+  animation-duration: v-bind('`${delay*stats.amount}s`');
   bottom: 0;
   opacity: 1;
   text-align: start;
   text-wrap: none;
+  white-space: nowrap;
   width: 100%;
   transform: translateY(7rem);
   padding: 0 1rem;
@@ -88,6 +88,7 @@ const activities = props.data.wrapped.events
 
 .title {
   text-wrap: none;
+  text-overflow: ellipsis;
   overflow: hidden;
 }
 
@@ -102,6 +103,16 @@ const activities = props.data.wrapped.events
   font-size: .8em;
   display: flex;
   justify-content: space-between;
+  gap: 2rem;
+}
+
+.footer div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date {
+  flex-shrink: 0;
 }
 
 @keyframes move {
@@ -110,7 +121,7 @@ const activities = props.data.wrapped.events
   }
 
   100% {
-    transform: v-bind('`translateY(min(-35rem, ${-5*1.5*activities.length}rem))`');
+    transform: v-bind('`translateY(min(-35rem, ${-5*1.5*stats.amount}rem))`');
   }
 }
 </style>
