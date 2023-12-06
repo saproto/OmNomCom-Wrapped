@@ -1,7 +1,7 @@
 <template>
   <div class="slide">
     <h1>You consumed a total of</h1>
-    <h1 class="dynamic">{{ stats.amount }}</h1>
+    <h1 class="dynamic"><b>{{ stats.amount }}</b></h1>
     <h2>Calories this year.</h2>
     <h2>That's equal to <span class="dynamic">{{ stats.tostis }}</span> Tostis!</h2>
     <div class="tostis">
@@ -33,7 +33,7 @@ const columns = Math.round(Math.sqrt(stats.tostis/2));
 }
 
 .dynamic {
-  color: #ffc246;
+color: #E01A4F;
 }
 
 .container {
