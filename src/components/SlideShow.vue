@@ -32,11 +32,11 @@ let slides = [
   [TotalSpent, 10],
   [MostBought, 10],
   [Calories, 10],
-  [Drinks, 10],
-  stats.willToLives <= 0 || [WillToLive, 10],
+  stats.drinks.amount <= 0 || [Drinks, 10],
+  stats.willToLives.amount <= 0 || [WillToLive, 10],
   [DaysAtProto, 10],
   // [NoStreepDecember, 10],
-  stats.activities <= 0 || [Activities, 10],
+  stats.activities.amount <= 0 || [Activities, 10],
 ];
 
 slides = slides.filter(x => x !== true);
@@ -204,7 +204,6 @@ const {isSwiping, direction, lengthX, lengthY} = useSwipe(slideElement, {
             :data="data"
             :time="slides[currentSlide][1]"
             ref="slideElement"
-            @click="slideClick"
             @mousedown="startTouch"
             @mouseup="stopTouch"
             :no-animation="sharing"
