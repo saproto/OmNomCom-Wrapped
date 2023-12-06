@@ -96,6 +96,7 @@ const stats = props.data.stats.activities;
 }
 
 .footer {
+  color: #cccccc;
   font-size: .8em;
   display: flex;
   justify-content: space-between;

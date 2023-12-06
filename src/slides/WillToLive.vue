@@ -39,7 +39,7 @@ const stats = props.data.stats.willToLives;
 }
 
 .dynamic {
-  color: #7F2982;
+  color: #50f8eb;
 }
 
 .card {
