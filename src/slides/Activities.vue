@@ -1,7 +1,7 @@
 <template>
   <div class="slide">
     <h2>You paid for a total of</h2>
-    <h1><span class="dynamic">{{ stats.amount }}</span> Activities</h1>
+    <h1 style="color: powderblue"><span class="dynamic">{{ stats.amount }}</span> Activities</h1>
     <h2>Which cost you a total of <p class="amount-spent dynamic"> €{{ stats.spent }}!</p></h2>
     <div class="activity-container">
       <div v-for="(activity, idx) in stats.all" class="move-up" :style="`animation-delay: ${(idx-5)*(delay)}s`">
@@ -43,7 +43,7 @@ const stats = props.data.stats.activities;
 }
 
 .amount-spent {
-  color: red;
+  color: lawngreen;
   display: inline-block;
 }
 
