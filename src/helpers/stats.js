@@ -1,7 +1,7 @@
 import cookieMonster from '@/assets/cookiemonster.png';
 import beugel from '@/assets/beugel.webp';
 import lemonade from '@/assets/lemonade.png';
-import spilledBeer from '@/assets/spilledbeer.svg'
+import spilledBeer from '@/assets/spilledbeer.png'
 import tosti from '@/assets/tosti.png'
 import unicorn from '@/assets/unicorn.png'
 import unicornBw from '@/assets/unicorn_bw.png'
@@ -149,13 +149,29 @@ const preloadImages = async stats => {
     await preloadImage(tosti);
     await preloadImage(unicorn);
     await preloadImage(unicornBw);
+    //Activities
+    for (let activity of stats.activities.all) {
+        if (activity.image_url) {
+            const src = activity.image_url + '?w=500';
+            const blob = await fetch(src).then(response => response.blob())
+            activity.image_url = await new Promise(resolve => {
+                const reader = new FileReader();
+                reader.onload = function() {resolve(this.result)};
+                reader.readAsDataURL(blob);
+            });
+
+            await preloadImage(src).catch(err => {
+                console.log(err);
+            });
+        }
+    }
     //MostBought
     for (let product of stats.mostBought.items.slice(0, 5)) {
         if (product[0].image_url) {
-            const src = product[0].image_url += '?w=500';
+            const src = product[0].image_url + '?w=500';
             const blob = await fetch(src).then(response => response.blob())
-            product[0].image_url = await new Promise((resolve, reject) => {
-                const reader = new FileReader()
+            product[0].image_url = await new Promise(resolve => {
+                const reader = new FileReader();
                 reader.onload = function(){resolve(this.result)};
                 reader.readAsDataURL(blob);
             });
