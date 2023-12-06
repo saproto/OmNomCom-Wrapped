@@ -6,7 +6,7 @@
       <h2>Which cost you a total of <p class="amount-spent"> €{{ stats.spent }}!</p></h2>
     </div>
     <div class="activity-container">
-      <div v-for="(activity, idx) in activities" class="move-up" :style="`animation-delay: ${(idx-5)*(delay)}s`">
+      <div v-for="(activity, idx) in stats.all" class="move-up" :style="`animation-delay: ${(idx-5)*(delay)}s`">
         <div class="activity"
              :style="`background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(${activity.image_url})`">
           <div class="title">
@@ -35,7 +35,6 @@ const props = defineProps({
   }
 });
 const stats = props.data.stats.activities;
-const activities = props.data.wrapped.events
 </script>
 
 <style scoped>
@@ -61,7 +60,7 @@ const activities = props.data.wrapped.events
 .move-up {
   position: absolute;
   animation: move infinite linear;
-  animation-duration: v-bind('`${delay*activities.length}s`');
+  animation-duration: v-bind('`${delay*stats.amount}s`');
   bottom: 0;
   opacity: 1;
   text-align: start;
@@ -124,7 +123,7 @@ const activities = props.data.wrapped.events
   }
 
   100% {
-    transform: v-bind('`translateY(min(-35rem, ${-5*1.5*activities.length}rem))`');
+    transform: v-bind('`translateY(min(-35rem, ${-5*1.5*stats.amount}rem))`');
   }
 }
 </style>
