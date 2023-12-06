@@ -185,7 +185,7 @@ const {isSwiping, direction, lengthX, lengthY} = useSwipe(slideElement, {
 </script>
 
 <template>
-  <div id="slideshow">
+  <div id="slideshow" @click="slideClick">
     <div><h1>{{ data.userInfo.calling_name }}'s <span class="omnomcom">OmNomCom</span> Wrapped</h1></div>
 
     <div id="progress">

@@ -2,13 +2,13 @@
   <div class="slide">
     <h1>This year you attended</h1>
     <h1>
-      <img :src="spilledBeer" style="width: 10rem;"/>
+      <img :src="spilledBeer" style="width: 10rem;" alt="spilled beer"/>
       <span class="dynamic">{{ stats.amount }}</span> drinks
     </h1>
     <h2>On average you consumed <span class="dynamic">{{ ((stats.alcoholic+stats.nonAlcoholic)/stats.amount).toFixed(2) }}</span> glasses per drink!</h2>
     <h2>
       <img :src="beugel" style="height: 1em"/>
-      = <span class="dynamic">Alcoholic</span>
+      = <span class="dynamic" style="color: lawngreen">Alcoholic</span>
       <img :src="lemonade" style="width: 1em"/>
       = <span class="dynamic">Non-Alcoholic</span>
     </h2>
@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import spilledBeer from "@/assets/spilledbeer.svg";
+import spilledBeer from "@/assets/spilledbeer.png";
 import beugel from "@/assets/beugel.webp";
 import lemonade from "@/assets/lemonade.png";
 
