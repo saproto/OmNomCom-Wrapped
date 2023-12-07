@@ -2,12 +2,10 @@
   <div class="slide">
     <h1>Your most loved product:</h1>
     <div style="height: 8rem; display: flex; justify-content: center">
-    <div class="product-card pulse">
-      <img :src="stats.items[0][0]['image_url']"/>
-      <div>
+      <div class="product-card pulse">
+        <img :src="stats.items[0][0]['image_url']"/>
         <h1>{{ stats.items[0][0]['name'] }}</h1>
       </div>
-    </div>
     </div>
     <h1>You bought a total of <span class="dynamic">{{ stats.items[0][1] }}</span>!</h1>
     <h2 v-if="stats.percentile === 0">You're the <span class="dynamic">top</span> buyer of this product!</h2>
@@ -17,12 +15,12 @@
     <br>
     <div class="product-list">
       <div class="product-line" v-for="(item, index) in stats.items.slice(1, 5)">
-        <div style="font-size: 1.2em">{{ index+2 }}.</div>
+        <div style="font-size: 1.2em">{{ index + 2 }}.</div>
         <div class="product-card">
           <img v-if="item[0]['image_url']" :src="item[0]['image_url']" crossorigin="anonymous"/>
           <div class="textbox">
-            <div><h2>{{ item[0]['name'] }}</h2></div>
-            <div><h2>{{ item[1] }}</h2></div>
+            <h2>{{ item[0]['name'] }}</h2>
+            <h2>{{ item[1] }}</h2>
           </div>
         </div>
       </div>
@@ -40,14 +38,9 @@ const stats = props.data.stats.mostBought;
 </script>
 
 <style scoped>
-img{
-  max-width: 30%;
-  object-fit: contain;
-  margin-left: .5em;
-}
 .slide {
-  background: rgb(34,78,255);
-  background: linear-gradient(149deg, rgba(34,78,255,1) 0%, rgba(44,149,155,1) 49%, rgba(38,159,108,1) 98%);
+  background: rgb(34, 78, 255);
+  background: linear-gradient(149deg, rgba(34, 78, 255, 1) 0%, rgba(44, 149, 155, 1) 49%, rgba(38, 159, 108, 1) 98%);
   text-align: center;
 }
 
@@ -56,7 +49,7 @@ img{
 }
 
 .product-card {
-  background: rgba(200,200,200,.6);
+  background: rgba(200, 200, 200, .6);
   border-radius: 1em;
   color: black;
   padding: 0;
@@ -66,7 +59,8 @@ img{
   align-items: center;
   text-align: start;
   gap: 1em;
-  box-shadow: rgba(255,255,255,.2) 0 0 .3rem .3rem;
+  box-shadow: rgba(255, 255, 255, .2) 0 0 .3rem .3rem;
+  overflow: hidden;
 }
 
 .product-card * {
@@ -76,6 +70,8 @@ img{
 .product-card img {
   border-radius: 1em 0 0 1em;
   height: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
 }
 
 .product-card .textbox {
@@ -83,10 +79,15 @@ img{
   justify-content: space-between;
   align-items: center;
   gap: 1em;
-  width: 100%;
-  height: 100%;
+  flex-grow: 1;
+  padding: .5rem 1rem .5rem 0;
+  min-width: 0;
+}
+
+.product-card h1, .product-card h2 {
   overflow: hidden;
-  padding: .5em 1em .5em 0em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .product-list {
@@ -108,10 +109,10 @@ img{
   width: 23em;
 }
 
-.pulse{
-  width:90%;
-  height:100%;
-  scale:1;
+.pulse {
+  width: 90%;
+  height: 100%;
+  scale: 1;
   animation: pulse 2s infinite ease-in-out;
 }
 
