@@ -20,7 +20,7 @@
           <img v-if="item[0]['image_url']" :src="item[0]['image_url']" crossorigin="anonymous"/>
           <div class="textbox">
             <h2>{{ item[0]['name'] }}</h2>
-            <h2>{{ item[1] }}</h2>
+            <h2 style="text-overflow: unset; overflow: unset">{{ item[1] }}</h2>
           </div>
         </div>
       </div>
