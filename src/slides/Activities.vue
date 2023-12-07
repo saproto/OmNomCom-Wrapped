@@ -114,7 +114,7 @@ const stats = props.data.stats.activities;
 
 @keyframes move {
   0% {
-    transform: translateY(5rem);
+    transform: translateY(7rem);
   }
 
   100% {
