@@ -11,13 +11,13 @@
     </div>
     <h1>You bought a total of <span class="dynamic">{{ stats.items[0][1] }}</span>!</h1>
     <h2 v-if="stats.percentile === 0">You're the <span class="dynamic">top</span> buyer of this product!</h2>
-    <h2 v-else>That puts you in the top <span class="dynamic">{{ stats.percentile }}%</span> buyers of this product.</h2>
+    <h2 v-else>That puts you in the top <span class="dynamic">{{ stats.percentile }}%</span> of buyers.</h2>
     <br>
     <h2>Your other favourite products were:</h2>
     <br>
     <div class="product-list">
       <div class="product-line" v-for="(item, index) in stats.items.slice(1, 5)">
-        <div>{{ index+2 }}.</div>
+        <div style="font-size: 1.2em">{{ index+2 }}.</div>
         <div class="product-card">
           <img v-if="item[0]['image_url']" :src="item[0]['image_url']" crossorigin="anonymous"/>
           <div class="textbox">
