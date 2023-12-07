@@ -115,6 +115,18 @@ const slideClick = (e: MouseEvent) => {
   }
 }
 
+const pageClick = (e: MouseEvent) => {
+  const target = e.currentTarget as HTMLElement
+  if (target !== e.target) return;
+  const bounds = target.getBoundingClientRect()
+  const middle = bounds.left + bounds.width / 2;
+  if (e.pageX < middle) {
+    prevSlide()
+  } else {
+    nextSlide()
+  }
+}
+
 const touchEvent = (state) => {
   touched.value = state;
   if (state) {
@@ -185,7 +197,7 @@ const {isSwiping, direction, lengthX, lengthY} = useSwipe(slideElement, {
 </script>
 
 <template>
-  <div id="slideshow" @click="slideClick">
+  <div id="slideshow" @click="pageClick">
     <div><h1>{{ data.userInfo.calling_name }}'s <span class="omnomcom">OmNomCom</span> Wrapped</h1></div>
 
     <div id="progress">
@@ -204,6 +216,7 @@ const {isSwiping, direction, lengthX, lengthY} = useSwipe(slideElement, {
             :data="data"
             :time="slides[currentSlide][1]"
             ref="slideElement"
+            @click="slideClick"
             @mousedown="startTouch"
             @mouseup="stopTouch"
             :no-animation="sharing"
