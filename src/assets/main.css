@@ -29,11 +29,11 @@ body, html {
   background: black;
   padding: 0;
   margin: 0;
-  user-select: none;
 }
 
 * {
   user-select: none;
+  -webkit-user-select: none;
 }
 
 img {
