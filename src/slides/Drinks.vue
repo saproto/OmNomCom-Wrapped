@@ -15,7 +15,7 @@
     <br>
     <div id="beerStats">
       <div v-for="i in 100">
-        <img :src="i > 58/*stats.alcoholic/stats.amount*100*/ ? lemonade : beugel" style="width: 2.5rem"/>
+        <img :src="i > stats.alcoholic/(stats.alcoholic+stats.nonAlcoholic)*100 ? lemonade : beugel" style="width: 2.5rem"/>
       </div>
     </div>
   </div>

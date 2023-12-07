@@ -44,7 +44,8 @@ export const prepareStats = async (wrapped, orders) => {
             const date = order.created_at.substring(0, 10);
             if (!(date in drinks)) drinks[date] = 0;
             drinks[date] += order.units;
-            if (order.product.is_alcoholic) {
+            console.log(order.product);
+            if (order.product.is_alcoholic === 1) {
                 stats.drinks.alcoholic += order.units;
             } else {
                 stats.drinks.nonAlcoholic += order.units;
