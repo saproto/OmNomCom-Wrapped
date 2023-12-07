@@ -2,8 +2,8 @@
   <div class="slide">
     <div class="card">
       <h1>This year you needed</h1>
-      <h1><span class="dynamic">{{ stats.amount }}</span> will to lives.</h1>
-      <h2>That places you in the top <span class="dynamic">{{ stats.percentile }}%</span></h2>
+      <h1 class="color-text"><span class="dynamic">{{ stats.amount }}</span> will to lives.</h1>
+      <h2>That places you in the top <span class="dynamic color-text">{{ stats.percentile }}%</span></h2>
 
       <h2 v-if="stats.percentile > 80">Must have been a great year.</h2>
       <h2 v-else-if="stats.percentile > 50">Must have been an average year.</h2>
@@ -38,7 +38,7 @@ const stats = props.data.stats.willToLives;
   text-align: center;
 }
 
-.dynamic {
+.color-text {
   color: #50f8eb;
 }
 

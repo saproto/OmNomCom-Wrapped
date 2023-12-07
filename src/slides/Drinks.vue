@@ -3,14 +3,14 @@
     <h1>This year you attended</h1>
     <h1>
       <img :src="spilledBeer" style="width: 10rem;" alt="spilled beer"/>
-      <span class="dynamic">{{ stats.amount }}</span> drinks
+      <span class="color"><span class="dynamic">{{ stats.amount }}</span> drinks</span>
     </h1>
-    <h2>On average you consumed <span class="dynamic">{{ ((stats.alcoholic+stats.nonAlcoholic)/stats.amount).toFixed(2) }}</span> glasses per drink!</h2>
+    <h2>On average you consumed <span class="color"><span class="dynamic">{{ ((stats.alcoholic+stats.nonAlcoholic)/stats.amount).toFixed(2) }}</span> glasses</span> per drink!</h2>
     <h2>
       <img :src="beugel" style="height: 1em"/>
       = <span class="dynamic" style="color: lawngreen">Alcoholic</span>
       <img :src="lemonade" style="width: 1em"/>
-      = <span class="dynamic">Non-Alcoholic</span>
+      = <span class="dynamic color">Non-Alcoholic</span>
     </h2>
     <br>
     <div id="beerStats">
@@ -41,7 +41,7 @@ const stats = props.data.stats.drinks;
   text-align: center;
 }
 
-.dynamic {
+.color {
   color: #ffe700;
 }
 
