@@ -40,6 +40,11 @@ const stats = props.data.stats.mostBought;
 </script>
 
 <style scoped>
+img{
+  max-width: 30%;
+  object-fit: contain;
+  margin-left: .5em;
+}
 .slide {
   background: rgb(34,78,255);
   background: linear-gradient(149deg, rgba(34,78,255,1) 0%, rgba(44,149,155,1) 49%, rgba(38,159,108,1) 98%);
@@ -47,7 +52,7 @@ const stats = props.data.stats.mostBought;
 }
 
 .dynamic {
-  color: #e08fff;
+  color: #C7EF00;
 }
 
 .product-card {

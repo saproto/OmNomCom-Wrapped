@@ -41,6 +41,9 @@ const stats = props.data.stats.activities;
   background: linear-gradient(149deg, #BF1363 0%, #F39237 49%, rgb(42, 40, 100) 98%);
   text-align: center;
 }
+.dynamic{
+  color:#8ACDEA;
+}
 
 .amount-spent {
   color: lawngreen;
@@ -92,14 +95,8 @@ const stats = props.data.stats.activities;
   overflow: hidden;
 }
 
-.content {
-  z-index: 2;
-  border-radius: .5em;
-  margin-top: 3em;
-}
-
 .footer {
-  color: lightblue;
+  color: #cccccc;
   font-size: .8em;
   display: flex;
   justify-content: space-between;
