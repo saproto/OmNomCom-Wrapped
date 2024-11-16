@@ -10,15 +10,9 @@ const steps = 5;
 const currentStep = ref(0);
 const loggedIn = ref(undefined);
 const loadData = async () => {
-  data.value.userInfo = await protoApi('user/info');
-  currentStep.value++;
-  data.value.profilePicture = await protoApi('user/profile_picture');
-  currentStep.value++;
   data.value.wrapped = await protoApi('wrapped');
   currentStep.value++;
-  data.value.orders = await protoApi('user/orders?from=2023-01-01&to=2024-01-01');
-  currentStep.value++;
-  data.value.stats = await prepareStats(data.value.wrapped, data.value.orders);
+  data.value.stats = await prepareStats(data.value.wrapped, data.value.wrapped.purchases);
   currentStep.value++;
   await new Promise(resolve => setTimeout(resolve, 1000));
   loaded.value = true;
