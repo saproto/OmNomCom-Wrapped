@@ -6,7 +6,7 @@ import {prepareStats} from "@/helpers/stats";
 
 const data = ref({});
 const loaded = ref(false);
-const steps = 5;
+const steps = 2;
 const currentStep = ref(0);
 const loggedIn = ref(undefined);
 const loadData = async () => {
