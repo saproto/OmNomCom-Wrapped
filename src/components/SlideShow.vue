@@ -198,7 +198,7 @@ const {isSwiping, direction, lengthX, lengthY} = useSwipe(slideElement, {
 
 <template>
   <div id="slideshow" @click="pageClick">
-    <div><h1>{{ data.userInfo.calling_name }}'s <span class="omnomcom">OmNomCom</span> Wrapped</h1></div>
+    <div><h1>{{ data.wrapped.user.calling_name }}'s <span class="omnomcom">OmNomCom</span> Wrapped</h1></div>
 
     <div id="progress">
       <div v-for="(slide, i) in slides" class="bar">
