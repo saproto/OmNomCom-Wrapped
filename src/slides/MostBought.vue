@@ -17,7 +17,7 @@
       <div class="product-line" v-for="(item, index) in stats.items.slice(1, 5)">
         <div style="font-size: 1.2em">{{ index + 2 }}.</div>
         <div class="product-card">
-          <img v-if="item[0]['image_url']" :src="item[0]['image_url']" crossorigin="anonymous"/>
+          <img v-if="item[0]['image_url']" :src="item[0]['image_url']"/>
           <div class="textbox">
             <h2>{{ item[0]['name'] }}</h2>
             <h2 style="text-overflow: unset; overflow: unset">{{ item[1] }}</h2>
