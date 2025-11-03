@@ -44,7 +44,6 @@ export const prepareStats = async (wrapped, orders) => {
             const date = order.created_at.substring(0, 10);
             if (!(date in drinks)) drinks[date] = 0;
             drinks[date] += order.units;
-            console.log(order.product);
             if (order.product.is_alcoholic === 1) {
                 stats.drinks.alcoholic += order.units;
             } else {
@@ -153,33 +152,40 @@ const preloadImages = async stats => {
     //Activities
     for (let activity of stats.activities.all) {
         if (activity.image_url) {
-            const src = activity.image_url + '?w=500';
-            const blob = await fetch(src).then(response => response.blob())
-            activity.image_url = await new Promise(resolve => {
-                const reader = new FileReader();
-                reader.onload = function() {resolve(this.result)};
-                reader.readAsDataURL(blob);
-            });
+            const src = activity.image_url;
+            let fetched = true;
+            const blob = await fetch(src).then(response => response.blob()).catch(
+                ()=> {fetched=false}
+            );
+            if(fetched) {
+                activity.image_url = await new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        resolve(this.result)
+                    };
+                    reader.readAsDataURL(blob);
+                })
 
-            await preloadImage(src).catch(err => {
-                console.log(err);
-            });
+                await preloadImage(src)
+            }
         }
     }
     //MostBought
     for (let product of stats.mostBought.items.slice(0, 5)) {
         if (product[0].image_url) {
-            const src = product[0].image_url + '?w=500';
-            const blob = await fetch(src).then(response => response.blob())
-            product[0].image_url = await new Promise(resolve => {
-                const reader = new FileReader();
-                reader.onload = function(){resolve(this.result)};
-                reader.readAsDataURL(blob);
-            });
+            let fetched = true;
+            let blob = await fetch(product[0].image_url).then(response => response.blob()).catch(
+                ()=> {fetched=false}
+            )
+            if(fetched) {
+                product[0].image_url = await new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = function(){resolve(this.result)};
+                    reader.readAsDataURL(blob);
+                });
 
-            await preloadImage(src).catch((error) => {
-                console.log(error)
-            });
+                await preloadImage(product[0].image_url)
+            }
         }
     }
 }
